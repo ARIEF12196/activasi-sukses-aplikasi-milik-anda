@@ -1934,10 +1934,17 @@ function backupProduk() {
 
 <script>
   window.addEventListener('DOMContentLoaded', function() {
-    // 1. Tangkap kode referral dari URL
     const urlParams = new URLSearchParams(window.location.search);
-    const refCode = urlParams.get('ref') || urlParams.get('aff');
 
+    // 0. Cek jika ada parameter aktivasi dari landing page
+    if (urlParams.get('activated') === 'true') {
+      localStorage.setItem('app_sub_status', 'active');
+      // Bersihkan URL dari parameter activated agar bersih
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // 1. Tangkap kode referral dari URL
+    const refCode = urlParams.get('ref') || urlParams.get('aff');
     if (refCode) {
       localStorage.setItem('app_aff_ref', refCode);
     }
@@ -1981,7 +1988,18 @@ function backupProduk() {
     }
   });
 </script>
+<!-- Contoh tombol di Landing Page Affione -->
+<button onclick="activateApp()">Saya Sudah Bayar / Aktifkan Aplikasi</button>
 
+<script>
+  function activateApp() {
+    // Ganti URL di bawah ini dengan URL aplikasi utama Anda yang sebenarnya
+    const mainAppUrl = "https://domain-aplikasi-utama-anda.com/index.html"; 
+    
+    // Redirect kembali ke aplikasi dengan membawa sinyal 'activated=true'
+    window.location.href = mainAppUrl + "?activated=true";
+  }
+</script>
 
 
 
